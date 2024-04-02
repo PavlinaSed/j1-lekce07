@@ -17,7 +17,10 @@ class SvatkyTest {
      */
     @Test
     void vratKdyMaSvatek() {
+        //Arrange
         Svatky svatky = new Svatky();
+
+        //Assert
         assertEquals(MonthDay.of(5, 26), svatky.vratKdyMaSvatek("Filip"));
         assertNull(svatky.vratKdyMaSvatek("Pavlína"));
     }
@@ -29,16 +32,16 @@ class SvatkyTest {
     void jeVSeznamu() {
         // Arrange
         Svatky svatky = new Svatky();
-        String jmenoJeVSeznamu = "Klaudie";
-        String jmenoNeniVSeznamu = "Julie";
+        String nameInList = "Klaudie";
+        String nameNotInList = "Julie";
 
         // Act
-        boolean resultJeVSeznamu = svatky.jeVSeznamu(jmenoJeVSeznamu);
-        boolean resultNeniVSeznamu = svatky.jeVSeznamu(jmenoNeniVSeznamu);
+        boolean isInList = svatky.jeVSeznamu(nameInList);
+        boolean isNotInList = svatky.jeVSeznamu(nameNotInList);
 
         // Assert
-        assertTrue(resultJeVSeznamu, "Očekávala jsem, že " + jmenoJeVSeznamu + " je v seznamu jmen.");
-        assertFalse(resultNeniVSeznamu, "Očekávala jsem, že " + jmenoNeniVSeznamu + " není v seznamu jmen.");
+        assertTrue(isInList, "Očekávala jsem, že " + nameInList + " je v seznamu jmen.");
+        assertFalse(isNotInList, "Očekávala jsem, že " + nameNotInList + " není v seznamu jmen.");
     }
 
 
@@ -65,16 +68,18 @@ class SvatkyTest {
      */
     @Test
     void pridejSvatekDenMesicInt() {
+        //Arrange
         Svatky svatky = new Svatky();
+        String expectedName = "Marcela";
+        MonthDay expectedDate = MonthDay.of(4, 20);
+
+        //Act
         svatky.pridejSvatek("Marcela", 20, 4);
-        String jmenoJePridane = "Marcela";
-        MonthDay datumPridanehoJmenaJe = MonthDay.of(4, 20);
+        boolean isAdded = svatky.jeVSeznamu(expectedName);
 
-        boolean resultJmenoJePridane = svatky.jeVSeznamu(jmenoJePridane);
-
-        assertTrue(resultJmenoJePridane);
-        assertEquals(MonthDay.of(4, 20), svatky.vratKdyMaSvatek("Marcela"));
-        // System.out.println(svatky.getSeznamJmen());      VYPISE SEZNAM JMEN VCETNE MARCELY
+        //Assert
+        assertTrue(isAdded);
+        assertEquals(expectedDate, svatky.vratKdyMaSvatek(expectedName));
     }
 
     /**
@@ -82,16 +87,17 @@ class SvatkyTest {
      */
     @Test
     void pridejSvatekDenMesicMonth() {
+        //Arrange
         Svatky svatky = new Svatky();
-        svatky.pridejSvatek("Markéta", 13, 7);
-        String jmenoJePridane = "Markéta";
-        int denPridanehoJmena = 13;
-        int mesicPridanehoJmena = 7;
+        String addedName = "Markéta";
 
-        boolean resultJmenoJePridane = svatky.jeVSeznamu(jmenoJePridane);
+        //Act
+        svatky.pridejSvatek(addedName, 13, Month.JULY);
+        boolean isAdded = svatky.jeVSeznamu(addedName);
 
-        assertTrue(resultJmenoJePridane);
-        assertEquals(MonthDay.of(7, 13), svatky.vratKdyMaSvatek("Markéta"));
+        //Assert
+        assertTrue(isAdded);
+        assertEquals(MonthDay.of(7, 13), svatky.vratKdyMaSvatek(addedName));
     }
 
     /**
@@ -99,17 +105,17 @@ class SvatkyTest {
      */
     @Test
     void pridejSvatekMonthDay() {
+        //Arrange
         Svatky svatky = new Svatky();
+        String nameToBeAdded = "Pavel";
 
-        svatky.pridejSvatek("Pavel", 29, 6);
-        String jmenoJePridane = "Pavel";
-        int denPridanehoJmena = 29;
-        Month mesicPridanehoJmena = Month.JUNE;
+        //Act
+        svatky.pridejSvatek(nameToBeAdded, MonthDay.of(6, 29));
+        boolean isAdded = svatky.jeVSeznamu(nameToBeAdded);
 
-        boolean resultJmenoJePridane = svatky.jeVSeznamu(jmenoJePridane);
-
-        assertTrue(resultJmenoJePridane);
-        assertEquals(MonthDay.of(6, 29), svatky.vratKdyMaSvatek("Pavel"));
+        //Assert
+        assertTrue(isAdded);
+        assertEquals(MonthDay.of(6, 29), svatky.vratKdyMaSvatek(nameToBeAdded));
     }
 
     /**
@@ -117,9 +123,16 @@ class SvatkyTest {
      */
     @Test
     void smazSvatek() {
+        //Arrange
         Svatky svatky = new Svatky();
-        svatky.smazSvatek("Pankrác");
+        String nameToBeDeleted = "Pankrác";
 
+        //Act
+        svatky.smazSvatek(nameToBeDeleted);
+        boolean isDeleted = svatky.jeVSeznamu(nameToBeDeleted);
+
+        //Assert
         assertEquals(36, svatky.getPocetJmen());
+        assertFalse(isDeleted);
     }
 }
